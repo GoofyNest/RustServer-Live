@@ -10,5 +10,6 @@ public enum AntiHackType
 	AttackHack,
 	ReloadHack,
 	CooldownHack,
-	InsideTerrain
+	InsideTerrain,
+	EffectHack
 }

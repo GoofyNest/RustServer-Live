@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ConsoleGen
 {
-	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[846]
+	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[856]
 	{
 		new ConsoleSystem.Command
 		{
@@ -865,6 +865,30 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "clearugcentitiesinrange",
+			Parent = "global",
+			FullName = "global.clearugcentitiesinrange",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				Admin.clearugcentitiesinrange(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "clearugcentity",
+			Parent = "global",
+			FullName = "global.clearugcentity",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				Admin.clearugcentity(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "clientperf",
 			Parent = "global",
 			FullName = "global.clientperf",
@@ -877,6 +901,18 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "clientperf_frametime",
+			Parent = "global",
+			FullName = "global.clientperf_frametime",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				Admin.clientperf_frametime(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "entid",
 			Parent = "global",
 			FullName = "global.entid",
@@ -885,6 +921,18 @@ public class ConsoleGen
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
 				Admin.entid(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "getugcinfo",
+			Parent = "global",
+			FullName = "global.getugcinfo",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				Admin.getugcinfo(arg);
 			}
 		},
 		new ConsoleSystem.Command
@@ -1212,6 +1260,19 @@ public class ConsoleGen
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
 				Admin.usersinrange(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "usersinrangeofplayer",
+			Parent = "global",
+			FullName = "global.usersinrangeofplayer",
+			ServerAdmin = true,
+			Description = "Show user info for players on server in range of the supplied player (eg. Jim 50)",
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				Admin.usersinrangeofplayer(arg);
 			}
 		},
 		new ConsoleSystem.Command
@@ -4807,6 +4868,19 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "asyncwarmup",
+			Parent = "global",
+			FullName = "global.asyncwarmup",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => Global.asyncWarmup.ToString(),
+			SetOveride = delegate(string str)
+			{
+				Global.asyncWarmup = str.ToBool();
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "breakclothing",
 			Parent = "global",
 			FullName = "global.breakclothing",
@@ -4904,6 +4978,19 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "forceunloadbundles",
+			Parent = "global",
+			FullName = "global.forceunloadbundles",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => Global.forceUnloadBundles.ToString(),
+			SetOveride = delegate(string str)
+			{
+				Global.forceUnloadBundles = str.ToBool();
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "free",
 			Parent = "global",
 			FullName = "global.free",
@@ -4991,6 +5078,19 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				Global.perf = str.ToInt();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "preloadconcurrency",
+			Parent = "global",
+			FullName = "global.preloadconcurrency",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => Global.preloadConcurrency.ToString(),
+			SetOveride = delegate(string str)
+			{
+				Global.preloadConcurrency = str.ToInt();
 			}
 		},
 		new ConsoleSystem.Command
@@ -5349,6 +5449,19 @@ public class ConsoleGen
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
 				Global.version(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "warmupconcurrency",
+			Parent = "global",
+			FullName = "global.warmupconcurrency",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => Global.warmupConcurrency.ToString(),
+			SetOveride = delegate(string str)
+			{
+				Global.warmupConcurrency = str.ToInt();
 			}
 		},
 		new ConsoleSystem.Command
@@ -7350,6 +7463,19 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				Server.levelurl = str;
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "listtoolcupboards",
+			Parent = "server",
+			FullName = "server.listtoolcupboards",
+			ServerAdmin = true,
+			Description = "Prints all the Tool Cupboards on the server",
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				Server.listtoolcupboards(arg);
 			}
 		},
 		new ConsoleSystem.Command
@@ -9552,6 +9678,18 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "monuments",
+			Parent = "world",
+			FullName = "world.monuments",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				ConVar.World.monuments(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "renderlabs",
 			Parent = "world",
 			FullName = "world.renderlabs",
@@ -11140,20 +11278,6 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				TrainCar.population = str.ToFloat();
-			}
-		},
-		new ConsoleSystem.Command
-		{
-			Name = "variant_ratio",
-			Parent = "traincar",
-			FullName = "traincar.variant_ratio",
-			ServerAdmin = true,
-			Description = "Ratio of Work Carts with additional cover to standard Work Carts. 1.0 = All covered, 0.0 = all standard.",
-			Variable = true,
-			GetOveride = () => TrainCar.variant_ratio.ToString(),
-			SetOveride = delegate(string str)
-			{
-				TrainCar.variant_ratio = str.ToFloat();
 			}
 		},
 		new ConsoleSystem.Command
