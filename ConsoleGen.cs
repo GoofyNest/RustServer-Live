@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ConsoleGen
 {
-	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[864]
+	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[867]
 	{
 		new ConsoleSystem.Command
 		{
@@ -6785,6 +6785,45 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				Sentry.targetall = str.ToBool();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "anticheatid",
+			Parent = "server",
+			FullName = "server.anticheatid",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => Server.anticheatid.ToString(),
+			SetOveride = delegate(string str)
+			{
+				Server.anticheatid = str;
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "anticheatkey",
+			Parent = "server",
+			FullName = "server.anticheatkey",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => Server.anticheatkey.ToString(),
+			SetOveride = delegate(string str)
+			{
+				Server.anticheatkey = str;
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "anticheatlog",
+			Parent = "server",
+			FullName = "server.anticheatlog",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => Server.anticheatlog.ToString(),
+			SetOveride = delegate(string str)
+			{
+				Server.anticheatlog = str.ToInt();
 			}
 		},
 		new ConsoleSystem.Command
