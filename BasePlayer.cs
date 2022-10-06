@@ -2875,7 +2875,7 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 		Missions missions = Facepunch.Pool.Get<Missions>();
 		missions.missions = Facepunch.Pool.GetList<MissionInstance>();
 		missions.activeMission = GetActiveMission();
-		missions.protocol = 228;
+		missions.protocol = 229;
 		missions.seed = World.Seed;
 		missions.saveCreatedTime = Epoch.FromDateTime(SaveRestore.SaveCreatedTime);
 		foreach (BaseMission.MissionInstance mission in this.missions)
@@ -2975,7 +2975,7 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 			uint seed = loadedMissions.seed;
 			int saveCreatedTime = loadedMissions.saveCreatedTime;
 			int num2 = Epoch.FromDateTime(SaveRestore.SaveCreatedTime);
-			if (228 != protocol || World.Seed != seed || num2 != saveCreatedTime)
+			if (229 != protocol || World.Seed != seed || num2 != saveCreatedTime)
 			{
 				Debug.Log("Missions were from old protocol or different seed, or not from a loaded save clearing");
 				loadedMissions.activeMission = -1;
@@ -4069,8 +4069,6 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 		BaseProjectile baseProjectile = attackEnt as BaseProjectile;
 		ItemModProjectile component = firedItemDef.GetComponent<ItemModProjectile>();
 		Projectile component2 = component.projectileObject.Get().GetComponent<Projectile>();
-		int projectile_protection = ConVar.AntiHack.projectile_protection;
-		Vector3 inheritedVelocity = ((attackEnt != null) ? attackEnt.GetInheritedVelocity(this) : Vector3.zero);
 		if (startPos.IsNaNOrInfinity() || startVel.IsNaNOrInfinity())
 		{
 			string text = component2.name;
@@ -4078,6 +4076,8 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 			stats.combat.LogInvalid(this, baseProjectile, "projectile_nan");
 			return;
 		}
+		int projectile_protection = ConVar.AntiHack.projectile_protection;
+		Vector3 inheritedVelocity = ((attackEnt != null) ? attackEnt.GetInheritedVelocity(this, startVel.normalized) : Vector3.zero);
 		if (projectile_protection >= 1)
 		{
 			float num = 1f + ConVar.AntiHack.projectile_forgiveness;
@@ -5471,8 +5471,8 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 			{
 				if (info.Initiator == this)
 				{
-					text = ToString() + " was suicide by " + lastDamage;
-					text2 = "You died: suicide by " + lastDamage;
+					text = string.Concat(ToString(), " was killed by ", lastDamage, " at ", base.transform.position);
+					text2 = "You died: killed by " + lastDamage;
 					if (lastDamage == DamageType.Suicide)
 					{
 						Analytics.Server.Death("suicide", ServerPosition);
@@ -5489,7 +5489,7 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 					if (info.Initiator is BasePlayer)
 					{
 						BasePlayer basePlayer = info.Initiator.ToPlayer();
-						text = ToString() + " was killed by " + basePlayer.ToString();
+						text = ToString() + " was killed by " + basePlayer.ToString() + " at " + base.transform.position;
 						text2 = "You died: killed by " + basePlayer.displayName + " (" + basePlayer.userID + ")";
 						basePlayer.stats.Add("kill_player", 1, Stats.All);
 						basePlayer.LifeStoryKill(this);
@@ -5511,7 +5511,7 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 					}
 					else
 					{
-						text = ToString() + " was killed by " + info.Initiator.ShortPrefabName + " (" + info.Initiator.Categorize() + ")";
+						text = ToString() + " was killed by " + info.Initiator.ShortPrefabName + " (" + info.Initiator.Categorize() + ") at " + base.transform.position;
 						text2 = "You died: killed by " + info.Initiator.Categorize();
 						stats.Add("death_" + info.Initiator.Categorize(), 1);
 					}
@@ -5523,13 +5523,13 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 			}
 			else if (lastDamage == DamageType.Fall)
 			{
-				text = ToString() + " was killed by fall!";
-				text2 = "You died: killed by fall!";
+				text = ToString() + " was killed by fall at " + base.transform.position;
+				text2 = "You died: killed by fall";
 				Analytics.Server.Death("fall", ServerPosition);
 			}
 			else
 			{
-				text = ToString() + " was killed by " + info.damageTypes.GetMajorityDamageType();
+				text = ToString() + " was killed by " + info.damageTypes.GetMajorityDamageType().ToString() + " at " + base.transform.position;
 				text2 = "You died: " + info.damageTypes.GetMajorityDamageType();
 			}
 		}
@@ -6319,7 +6319,7 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 	{
 	}
 
-	public int GetIdealSlot(BasePlayer player, ItemContainer container, Item item)
+	public int GetIdealSlot(BasePlayer player, Item item)
 	{
 		return -1;
 	}
@@ -7338,24 +7338,24 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 		return baseMountable.GetWorldVelocity();
 	}
 
-	public override Vector3 GetInheritedProjectileVelocity()
+	public override Vector3 GetInheritedProjectileVelocity(Vector3 direction)
 	{
 		BaseMountable baseMountable = GetMounted();
 		if (!baseMountable)
 		{
-			return base.GetInheritedProjectileVelocity();
+			return base.GetInheritedProjectileVelocity(direction);
 		}
-		return baseMountable.GetInheritedProjectileVelocity();
+		return baseMountable.GetInheritedProjectileVelocity(direction);
 	}
 
-	public override Vector3 GetInheritedThrowVelocity()
+	public override Vector3 GetInheritedThrowVelocity(Vector3 direction)
 	{
 		BaseMountable baseMountable = GetMounted();
 		if (!baseMountable)
 		{
-			return base.GetInheritedThrowVelocity();
+			return base.GetInheritedThrowVelocity(direction);
 		}
-		return baseMountable.GetInheritedThrowVelocity();
+		return baseMountable.GetInheritedThrowVelocity(direction);
 	}
 
 	public override Vector3 GetInheritedDropVelocity()
@@ -7833,7 +7833,7 @@ public class BasePlayer : BaseCombatEntity, LootPanel.IHasLootPanel, IIdealSlotE
 
 	public bool OnLadder()
 	{
-		if (modelState.onLadder)
+		if (modelState.onLadder && !IsWounded())
 		{
 			return FindTrigger<TriggerLadder>();
 		}
