@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ConsoleGen
 {
-	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[876]
+	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[883]
 	{
 		new ConsoleSystem.Command
 		{
@@ -394,6 +394,20 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				BigWheelGame.spinFrequencySeconds = str.ToFloat();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "maxbet",
+			Parent = "blackjackmachine",
+			FullName = "blackjackmachine.maxbet",
+			ServerAdmin = true,
+			Description = "Maximum initial bet per round",
+			Variable = true,
+			GetOveride = () => BlackjackMachine.maxbet.ToString(),
+			SetOveride = delegate(string str)
+			{
+				BlackjackMachine.maxbet = str.ToInt();
 			}
 		},
 		new ConsoleSystem.Command
@@ -9241,6 +9255,66 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "killboats",
+			Parent = "vehicle",
+			FullName = "vehicle.killboats",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				vehicle.killboats(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "killcars",
+			Parent = "vehicle",
+			FullName = "vehicle.killcars",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				vehicle.killcars(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "killminis",
+			Parent = "vehicle",
+			FullName = "vehicle.killminis",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				vehicle.killminis(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "killscraphelis",
+			Parent = "vehicle",
+			FullName = "vehicle.killscraphelis",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				vehicle.killscraphelis(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "killtrains",
+			Parent = "vehicle",
+			FullName = "vehicle.killtrains",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				vehicle.killtrains(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "stop_all_trains",
 			Parent = "vehicle",
 			FullName = "vehicle.stop_all_trains",
@@ -10111,6 +10185,19 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				SteamNetworking.steamconnectiontimeout = str.ToInt();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "steamnagleflush",
+			Parent = "global",
+			FullName = "global.steamnagleflush",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => SteamNetworking.steamnagleflush.ToString(),
+			SetOveride = delegate(string str)
+			{
+				SteamNetworking.steamnagleflush = str.ToBool();
 			}
 		},
 		new ConsoleSystem.Command

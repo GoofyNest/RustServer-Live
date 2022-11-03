@@ -241,6 +241,8 @@ public class BaseProjectile : AttackEntity
 	[NonSerialized]
 	public bool aiming;
 
+	public bool isBurstWeapon;
+
 	public float resetDuration = 0.3f;
 
 	public int numShotsFired;
@@ -893,7 +895,11 @@ public class BaseProjectile : AttackEntity
 	{
 		if (LightsOn())
 		{
-			return IsDeployed();
+			if (!IsDeployed())
+			{
+				return parentEntity.Get(base.isServer) is AutoTurret;
+			}
+			return true;
 		}
 		return false;
 	}
