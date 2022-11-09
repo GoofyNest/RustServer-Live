@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ConsoleGen
 {
-	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[883]
+	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[886]
 	{
 		new ConsoleSystem.Command
 		{
@@ -3054,6 +3054,19 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "projectile_damagedepth",
+			Parent = "antihack",
+			FullName = "antihack.projectile_damagedepth",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => ConVar.AntiHack.projectile_damagedepth.ToString(),
+			SetOveride = delegate(string str)
+			{
+				ConVar.AntiHack.projectile_damagedepth = str.ToInt();
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "projectile_desync",
 			Parent = "antihack",
 			FullName = "antihack.projectile_desync",
@@ -3076,6 +3089,19 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				ConVar.AntiHack.projectile_forgiveness = str.ToFloat();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "projectile_impactspawndepth",
+			Parent = "antihack",
+			FullName = "antihack.projectile_impactspawndepth",
+			ServerAdmin = true,
+			Variable = true,
+			GetOveride = () => ConVar.AntiHack.projectile_impactspawndepth.ToString(),
+			SetOveride = delegate(string str)
+			{
+				ConVar.AntiHack.projectile_impactspawndepth = str.ToInt();
 			}
 		},
 		new ConsoleSystem.Command
@@ -4052,6 +4078,18 @@ public class ConsoleGen
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
 				Debugging.eat(arg);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "enable_player_movement",
+			Parent = "debug",
+			FullName = "debug.enable_player_movement",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				Debugging.enable_player_movement(arg);
 			}
 		},
 		new ConsoleSystem.Command
