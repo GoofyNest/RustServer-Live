@@ -149,11 +149,16 @@ public class Item
 	{
 		get
 		{
+			Rarity rarity = info.despawnRarity;
+			if (rarity == Rarity.None)
+			{
+				rarity = info.rarity;
+			}
 			if (!(info != null))
 			{
 				return 1;
 			}
-			return Mathf.Clamp((int)(info.rarity - 1) * 4, 1, 100);
+			return Mathf.Clamp((int)(rarity - 1) * 4, 1, 100);
 		}
 	}
 
@@ -636,6 +641,10 @@ public class Item
 				if (iTargetPos == -1 && newcontainer.GetEntityOwner(returnHeldEntity: true) is IItemContainerEntity itemContainerEntity)
 				{
 					iTargetPos = itemContainerEntity.GetIdealSlot(sourcePlayer, this);
+					if (iTargetPos == int.MinValue)
+					{
+						return false;
+					}
 				}
 				if (iTargetPos == -1)
 				{

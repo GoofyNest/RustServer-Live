@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class ConsoleGen
 {
-	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[887]
+	public static ConsoleSystem.Command[] All = new ConsoleSystem.Command[893]
 	{
 		new ConsoleSystem.Command
 		{
@@ -859,8 +859,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				ServerUsers.User[] rval24 = Admin.Bans();
-				arg.ReplyWithObject(rval24);
+				ServerUsers.User[] rval25 = Admin.Bans();
+				arg.ReplyWithObject(rval25);
 			}
 		},
 		new ConsoleSystem.Command
@@ -873,8 +873,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				BuildInfo rval23 = Admin.BuildInfo();
-				arg.ReplyWithObject(rval23);
+				BuildInfo rval24 = Admin.BuildInfo();
+				arg.ReplyWithObject(rval24);
 			}
 		},
 		new ConsoleSystem.Command
@@ -1095,8 +1095,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				Admin.PlayerInfo[] rval22 = Admin.playerlist();
-				arg.ReplyWithObject(rval22);
+				Admin.PlayerInfo[] rval23 = Admin.playerlist();
+				arg.ReplyWithObject(rval23);
 			}
 		},
 		new ConsoleSystem.Command
@@ -1274,8 +1274,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				string rval21 = Admin.teaminfo(arg);
-				arg.ReplyWithObject(rval21);
+				string rval22 = Admin.teaminfo(arg);
+				arg.ReplyWithObject(rval22);
 			}
 		},
 		new ConsoleSystem.Command
@@ -3809,8 +3809,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				IEnumerable<Chat.ChatEntry> rval20 = Chat.search(arg);
-				arg.ReplyWithObject(rval20);
+				IEnumerable<Chat.ChatEntry> rval21 = Chat.search(arg);
+				arg.ReplyWithObject(rval21);
 			}
 		},
 		new ConsoleSystem.Command
@@ -3835,8 +3835,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				IEnumerable<Chat.ChatEntry> rval19 = Chat.tail(arg);
-				arg.ReplyWithObject(rval19);
+				IEnumerable<Chat.ChatEntry> rval20 = Chat.tail(arg);
+				arg.ReplyWithObject(rval20);
 			}
 		},
 		new ConsoleSystem.Command
@@ -3860,8 +3860,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				IEnumerable<Output.Entry> rval18 = Console.search(arg);
-				arg.ReplyWithObject(rval18);
+				IEnumerable<Output.Entry> rval19 = Console.search(arg);
+				arg.ReplyWithObject(rval19);
 			}
 		},
 		new ConsoleSystem.Command
@@ -3873,8 +3873,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				IEnumerable<Output.Entry> rval17 = Console.tail(arg);
-				arg.ReplyWithObject(rval17);
+				IEnumerable<Output.Entry> rval18 = Console.tail(arg);
+				arg.ReplyWithObject(rval18);
 			}
 		},
 		new ConsoleSystem.Command
@@ -4615,8 +4615,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				string rval16 = Demo.record(arg);
-				arg.ReplyWithObject(rval16);
+				string rval17 = Demo.record(arg);
+				arg.ReplyWithObject(rval17);
 			}
 		},
 		new ConsoleSystem.Command
@@ -4683,8 +4683,8 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				string rval15 = Demo.stop(arg);
-				arg.ReplyWithObject(rval15);
+				string rval16 = Demo.stop(arg);
+				arg.ReplyWithObject(rval16);
 			}
 		},
 		new ConsoleSystem.Command
@@ -4843,7 +4843,20 @@ public class ConsoleGen
 			Variable = false,
 			Call = delegate(ConsoleSystem.Arg arg)
 			{
-				string rval14 = Entity.svspawn(arg.GetString(0), arg.GetVector3(1, Vector3.zero), arg.GetVector3(2, Vector3.zero));
+				string rval15 = Entity.svspawn(arg.GetString(0), arg.GetVector3(1, Vector3.zero), arg.GetVector3(2, Vector3.zero));
+				arg.ReplyWithObject(rval15);
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "spawngrid",
+			Parent = "entity",
+			FullName = "entity.spawngrid",
+			ServerAdmin = true,
+			Variable = false,
+			Call = delegate(ConsoleSystem.Arg arg)
+			{
+				string rval14 = Entity.svspawngrid(arg.GetString(0), arg.GetInt(1, 5), arg.GetInt(2, 5), arg.GetInt(3, 5));
 				arg.ReplyWithObject(rval14);
 			}
 		},
@@ -10253,6 +10266,20 @@ public class ConsoleGen
 		},
 		new ConsoleSystem.Command
 		{
+			Name = "steamnagletime",
+			Parent = "global",
+			FullName = "global.steamnagletime",
+			ServerAdmin = true,
+			Description = "Nagle time, in microseconds",
+			Variable = true,
+			GetOveride = () => SteamNetworking.steamnagletime.ToString(),
+			SetOveride = delegate(string str)
+			{
+				SteamNetworking.steamnagletime = str.ToInt();
+			}
+		},
+		new ConsoleSystem.Command
+		{
 			Name = "steamnetdebug",
 			Parent = "global",
 			FullName = "global.steamnetdebug",
@@ -10367,6 +10394,34 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				SteamNetworking.steamsendbuffer = str.ToInt();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "steamsendratemax",
+			Parent = "global",
+			FullName = "global.steamsendratemax",
+			ServerAdmin = true,
+			Description = "Maxminum send rate clamp, 0 is no limit",
+			Variable = true,
+			GetOveride = () => SteamNetworking.steamsendratemax.ToString(),
+			SetOveride = delegate(string str)
+			{
+				SteamNetworking.steamsendratemax = str.ToInt();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "steamsendratemin",
+			Parent = "global",
+			FullName = "global.steamsendratemin",
+			ServerAdmin = true,
+			Description = "Minimum send rate clamp, 0 is no limit",
+			Variable = true,
+			GetOveride = () => SteamNetworking.steamsendratemin.ToString(),
+			SetOveride = delegate(string str)
+			{
+				SteamNetworking.steamsendratemin = str.ToInt();
 			}
 		},
 		new ConsoleSystem.Command
@@ -10638,6 +10693,34 @@ public class ConsoleGen
 			SetOveride = delegate(string str)
 			{
 				IOEntity.backtracking = str.ToInt();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "debugbudget",
+			Parent = "ioentity",
+			FullName = "ioentity.debugbudget",
+			ServerAdmin = true,
+			Description = "Print out what is taking so long in the IO frame budget",
+			Variable = true,
+			GetOveride = () => IOEntity.debugBudget.ToString(),
+			SetOveride = delegate(string str)
+			{
+				IOEntity.debugBudget = str.ToBool();
+			}
+		},
+		new ConsoleSystem.Command
+		{
+			Name = "debugbudgetthreshold",
+			Parent = "ioentity",
+			FullName = "ioentity.debugbudgetthreshold",
+			ServerAdmin = true,
+			Description = "Ignore frames with a lower ms than this while debugBudget is active",
+			Variable = true,
+			GetOveride = () => IOEntity.debugBudgetThreshold.ToString(),
+			SetOveride = delegate(string str)
+			{
+				IOEntity.debugBudgetThreshold = str.ToFloat();
 			}
 		},
 		new ConsoleSystem.Command
